@@ -1,10 +1,29 @@
+"use client";
+
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { createAction } from "@/app/actions";
+import { SyntheticEvent, useState, startTransition } from "react";
+import SubmitButton from "@/components/SubmitButton";
 
 
-export default function New() {
+export default async function New() {
+    const [state, setState] = useState('ready');
+
+    async function handleOnSubmit(event: SyntheticEvent){
+        event.preventDefault();
+        if(state === 'pending') return;
+        setState('pending');
+        const target = event.target as HTMLFormElement;
+
+        startTransition( async()=>{
+            const formData = new FormData(target);
+        await createAction(formData);
+        console.log('done');
+        })
+    }
+
     return (
         <main className="flex flex-col justify-center h-full gap-6 max-w-5xl mx-auto my-12">
             <div className="flex justify-between">
@@ -13,7 +32,7 @@ export default function New() {
                 </h1>
             </div>
             
-            <form action="" className="grid gap-4 max-w-sm">
+            <form action={createAction} onSubmit={handleOnSubmit} className="grid gap-4 max-w-sm">
                 <div>
                     <Label className="block font-semibold text-sm mb-2" htmlFor="name">Billing Name</Label>
                     <Input name="name" id="name" type="text" />
@@ -31,9 +50,7 @@ export default function New() {
                     <Textarea name="description" id="description" /> 
                 </div>
                 <div>
-                    <Button className="w-full font-semibold">
-                        Submit
-                    </Button>
+                    <SubmitButton />
                 </div>
             </form>
 
