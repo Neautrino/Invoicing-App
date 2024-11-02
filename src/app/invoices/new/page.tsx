@@ -6,22 +6,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { createAction } from "@/app/actions";
 import { SyntheticEvent, useState, startTransition } from "react";
 import SubmitButton from "@/components/SubmitButton";
+import Form from "next/form";
 
 
-export default async function New() {
+export default function New() {
     const [state, setState] = useState('ready');
 
-    async function handleOnSubmit(event: SyntheticEvent){
-        event.preventDefault();
-        if(state === 'pending') return;
-        setState('pending');
-        const target = event.target as HTMLFormElement;
-
-        startTransition( async()=>{
-            const formData = new FormData(target);
-        await createAction(formData);
-        console.log('done');
-        })
+    async function handleOnSubmit(event: SyntheticEvent) {        
+        if (state === 'pending') {
+            event.preventDefault();
+            return;
+        }
+        setState('pending');        
     }
 
     return (
@@ -31,8 +27,8 @@ export default async function New() {
                     Invoices
                 </h1>
             </div>
-            
-            <form action={createAction} onSubmit={handleOnSubmit} className="grid gap-4 max-w-sm">
+
+            <Form action={createAction} onSubmit={handleOnSubmit}  className="grid gap-4 max-w-sm">
                 <div>
                     <Label className="block font-semibold text-sm mb-2" htmlFor="name">Billing Name</Label>
                     <Input name="name" id="name" type="text" />
@@ -47,12 +43,12 @@ export default async function New() {
                 </div>
                 <div>
                     <Label className="block font-semibold text-sm mb-2" htmlFor="description">Description</Label>
-                    <Textarea name="description" id="description" /> 
+                    <Textarea name="description" id="description" />
                 </div>
                 <div>
                     <SubmitButton />
                 </div>
-            </form>
+            </Form>
 
         </main>
     );

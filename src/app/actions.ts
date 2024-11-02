@@ -8,7 +8,7 @@ export async function createAction(formData: FormData){
     const value = Math.floor(parseFloat(String(formData.get("value"))) * 100);
     const description = formData.get("description") as string;
 
-    const result = await db.insert(Invoices)
+    const results = await db.insert(Invoices)
         .values({
             value,
             description,
@@ -18,5 +18,5 @@ export async function createAction(formData: FormData){
             id: Invoices.id
         })
 
-    redirect(`/invoices/${result[0].id}`);
+    redirect(`/invoices/${results[0].id}`);
 }
