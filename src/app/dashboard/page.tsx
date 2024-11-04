@@ -14,14 +14,16 @@ import Link from "next/link";
 import { db } from "@/db";
 import { Invoices } from "@/db/schema";
 import { cn } from "@/lib/utils";
+import Container from "@/components/Container";
 
 
 export default async function Dashboard() {
 
     const results = await db.select().from(Invoices);
     return (
-        <main className="flex flex-col justify-center h-full text-center gap-6 max-w-5xl mx-auto my-12">
-            <div className="flex justify-between">
+        <main className="h-full">
+            <Container>
+            <div className="flex justify-between mb-6">
                 <h1 className=" text-3xl font-bold">
                     Invoices
                 </h1>
@@ -95,7 +97,7 @@ export default async function Dashboard() {
                     ))}
                 </TableBody>
             </Table>
-
+            </Container>
         </main>
     );
 }

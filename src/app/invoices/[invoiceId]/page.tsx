@@ -25,6 +25,7 @@ export default async function InvoicePage({ params }: { params: { invoiceId: str
 
     return (
         <main className=" h-full max-w-5xl mx-auto my-12">
+            
             <div className="flex justify-between mb-8">
                 <h1 className="flex items-center gap-4 text-3xl font-bold">
                     Invoice {invoiceId}
